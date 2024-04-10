@@ -55,4 +55,7 @@ jobs:
       run: |
         export CC=/usr/bin/clang && \
         cd toolchain/gcc && \
-        ./build.py -h
+        ./build.py --dist-dir ../../dist
+    - name: Check built distribution
+      run: |
+        ls -la ./dist
