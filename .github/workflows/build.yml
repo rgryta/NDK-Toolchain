@@ -29,7 +29,7 @@ jobs:
       run: |
         sudo apt-get update && \
         sudo apt-get upgrade -y && \
-        sudo apt-get install -y git repo make gcc g++ m4 texinfo bison flex python2-minimal && \
+        sudo apt-get install -y git repo make clang gcc g++ m4 texinfo bison flex python2-minimal && \
         sudo ln -sf python2 /usr/bin/python
     - name: Setup git
       run: |
@@ -53,5 +53,6 @@ jobs:
       run: cat toolchain/gcc/build-gcc.sh | grep ENABLE_LANGUAGES
     - name: Build
       run: |
+        export CC=/usr/bin/clang && \
         cd toolchain/gcc && \
         ./build.py -h
