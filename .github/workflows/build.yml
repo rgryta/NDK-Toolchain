@@ -5,6 +5,7 @@ on:
     inputs:
       langs:
         description: 'Additional languages - comma separated'
+        default: 'fortran'
         required: true
         type: string
       ndk:
