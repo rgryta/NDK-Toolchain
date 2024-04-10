@@ -1,0 +1,12 @@
+def sysroot_path(toolchain: ndk.abis.Toolchain) -> str:
+    """Returns the path to the prebuilt sysroot for the given toolchain."""
+    arch = ndk.abis.toolchain_to_arch(toolchain)
+    # Only ARM has more than one ABI, and they both have the same minimum
+    # platform level.
+    abi = ndk.abis.arch_to_abis(arch)[0]
+    version = ndk.abis.min_api_for_abi(abi)
+    triplet = ndk.abis.arch_to_triple(arch)
+
+    prebuilt_ndk = 'prebuilts/ndk'
+    sysroot_subpath = 'platform/sysroot/usr/{}/{}'.format(triplet, version)
+    return android_path(prebuilt_ndk, sysroot_subpath)
