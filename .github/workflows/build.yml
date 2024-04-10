@@ -7,6 +7,10 @@ on:
         description: 'Additional languages - comma separated'
         required: true
         type: string
+      ndk:
+        description: 'Specify NDK version to check out to (from: https://android.googlesource.com/platform/manifest/+refs, e.g. "ndk-r26-release"'
+        required: false
+        type: string
       release:
         description: 'Create release'
         required: false
@@ -18,11 +22,13 @@ jobs:
     
     steps:
     - uses: actions/checkout@v4
+    - name: Add universe repository for Python 2.7
+      run: sudo apt-add-repository universe
     - name: Install packages
       run: |
         sudo apt-get update && \
         sudo apt-get upgrade -y && \
-        sudo apt-get install -y git repo make gcc g++ m4 texinfo bison flex
+        sudo apt-get install -y git repo make gcc g++ m4 texinfo bison flex python2-minimal
     - name: Setup git
       run: |
         git config --global user.name "John Smith" && \
@@ -31,7 +37,19 @@ jobs:
       run: repo init -u https://android.googlesource.com/platform/manifest -b gcc --depth 1
     - name: Repo sync
       run: repo sync -c
+    - name: Checkout NDK
+      if: github.event.inputs.ndk != ''
+      run: |
+        NDK=$(echo "${{ inputs.ndk }}" | tr -d ' ') && \
+        echo "Checking out NDK: $NDK" && \
+        repo forall -c git checkout $NDK
     - name: Add additional languages
-      run: sed -i -e 's/ENABLE_LANGUAGES="c,c++"/ENABLE_LANGUAGES="c,c++,${{ inputs.langs }} "/g' toolchain/gcc/build-gcc.sh
+      run: |
+        LANGS=$(echo "${{ inputs.langs }}" | tr -d ' ') && \
+        sed -i -e "s/ENABLE_LANGUAGES=\"c,c++\"/ENABLE_LANGUAGES=\"c,c++,$LANGS\"/g" toolchain/gcc/build-gcc.sh
     - name: Check contents
       run: cat toolchain/gcc/build-gcc.sh | grep ENABLE_LANGUAGES
+    - name: Build
+      run: |
+        cd toolchain/gcc && \
+        ./build.py -h
