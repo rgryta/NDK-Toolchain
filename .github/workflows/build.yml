@@ -55,7 +55,7 @@ jobs:
       run: |
         echo "" >> toolchain/ndk/ndk/paths.py && \
         cat patches/ndk.paths >> toolchain/ndk/ndk/paths.py && \
-        echo "" >> toolchain/ndk/ndk/paths.py
+        echo "" >> ndk/ndk/paths.py
     - name: Build
       run: |
         export CC=/usr/bin/clang && \
