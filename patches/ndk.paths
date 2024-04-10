@@ -8,5 +8,5 @@ def sysroot_path(toolchain: ndk.abis.Toolchain) -> str:
     triplet = ndk.abis.arch_to_triple(arch)
 
     prebuilt_ndk = 'prebuilts/ndk'
-    sysroot_subpath = 'platform/sysroot/usr/{}/{}'.format(triplet, version)
+    sysroot_subpath = 'platform/sysroot/usr/lib/{}/{}'.format(triplet, version)
     return android_path(prebuilt_ndk, sysroot_subpath)
