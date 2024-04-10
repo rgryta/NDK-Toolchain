@@ -27,5 +27,5 @@ jobs:
       run: repo init -u https://android.googlesource.com/platform/manifest -b gcc --manifest-depth 1 --depth 1
     - name: Repo sync
       run: repo sync
-    - name: Check contents:
+    - name: Check contents
       run: ls -la .
