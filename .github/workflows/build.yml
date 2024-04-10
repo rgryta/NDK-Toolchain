@@ -24,7 +24,7 @@ jobs:
         git config --global user.name "John Smith" && \
         git config --global user.email "john.smith@gmail.com"
     - name: Repo init
-      run: repo init -u https://android.googlesource.com/platform/manifest -b gcc --manifest-depth 1 --depth 1
+      run: repo --manifest-depth 1 --depth 1 init -u https://android.googlesource.com/platform/manifest -b gcc
     - name: Repo sync
       run: repo sync
     - name: Check contents
