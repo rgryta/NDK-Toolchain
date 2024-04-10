@@ -25,11 +25,13 @@ jobs:
     - uses: actions/checkout@v4
     - name: Add universe repository for Python 2.7
       run: sudo apt-add-repository universe
-    - name: Install packages
+    - name: Install packages and set Python 2.7 as default Python
       run: |
         sudo apt-get update && \
         sudo apt-get upgrade -y && \
-        sudo apt-get install -y git repo make gcc g++ m4 texinfo bison flex python2-minimal
+        sudo apt-get install -y git repo make gcc g++ m4 texinfo bison flex python2-minimal && \
+        sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 1 && \
+        sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 2
     - name: Setup git
       run: |
         git config --global user.name "John Smith" && \
