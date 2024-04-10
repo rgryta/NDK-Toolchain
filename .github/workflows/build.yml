@@ -51,6 +51,11 @@ jobs:
         sed -i -e "s/ENABLE_LANGUAGES=\"c,c++\"/ENABLE_LANGUAGES=\"c,c++,$LANGS\"/g" toolchain/gcc/build-gcc.sh
     - name: Check contents
       run: cat toolchain/gcc/build-gcc.sh | grep ENABLE_LANGUAGES
+    - name: Fix ndk sysroot path
+      run: |
+        echo "" >> toolchain/ndk/ndk/paths.py && \
+        cat patches/ndk.paths >> toolchain/ndk/ndk/paths.py && \
+        echo "" >> toolchain/ndk/ndk/paths.py
     - name: Build
       run: |
         export CC=/usr/bin/clang && \
