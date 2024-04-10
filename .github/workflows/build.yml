@@ -1,0 +1,31 @@
+name: Build NDK
+
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'Create release'
+        required: false
+        type: boolean
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install packages
+      run: |
+        sudo apt-get update && \
+        sudo apt-get upgrade -y && \
+        sudo apt-get install -y git repo make gcc g++ m4 texinfo bison flex
+    - name: Setup git
+      run: |
+        git config --global user.name "John Smith" && \
+        git config --global user.email "john.smith@gmail.com"
+    - name: Repo init
+      run: repo init -u https://android.googlesource.com/platform/manifest -b gcc --manifest-depth 1 --depth 1
+    - name: Repo sync
+      run: repo sync
+    - name: Check contents:
+      run: ls -la .
