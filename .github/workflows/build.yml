@@ -3,6 +3,10 @@ name: Build NDK
 on:
   workflow_dispatch:
     inputs:
+      langs:
+        description: 'Additional languages - comma separated'
+        required: true
+        type: string
       release:
         description: 'Create release'
         required: false
@@ -26,6 +30,8 @@ jobs:
     - name: Repo init
       run: repo init -u https://android.googlesource.com/platform/manifest -b gcc --depth 1
     - name: Repo sync
-      run: repo sync
+      run: repo sync -c
+    - name: Add additional languages
+      run: sed -i -e 's/ENABLE_LANGUAGES="c,c++"/ENABLE_LANGUAGES="c,c++,${{ inputs.langs }} "/g' toolchain/gcc/build-gcc.sh
     - name: Check contents
-      run: ls -la .
+      run: cat toolchain/gcc/build-gcc.sh | grep ENABLE_LANGUAGES
