@@ -53,8 +53,8 @@ jobs:
       run: cat toolchain/gcc/build-gcc.sh | grep ENABLE_LANGUAGES
     - name: Fix ndk sysroot path
       run: |
-        echo "" >> toolchain/ndk/ndk/paths.py && \
-        cat patches/ndk.paths >> toolchain/ndk/ndk/paths.py && \
+        echo "" >> ndk/ndk/paths.py && \
+        cat patches/ndk.paths >> ndk/ndk/paths.py && \
         echo "" >> ndk/ndk/paths.py
     - name: Build
       run: |
