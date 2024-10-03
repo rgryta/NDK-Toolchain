@@ -36,7 +36,7 @@ jobs:
         git config --global user.name "John Smith" && \
         git config --global user.email "john.smith@gmail.com"
     - name: Repo init
-      run: repo init -u https://android.googlesource.com/platform/manifest -b gcc --depth 1
+      run: repo init -u https://android.googlesource.com/platform/manifest -b llvm --depth 1
     - name: Repo sync
       run: repo sync -c
     - name: Checkout NDK
