@@ -6,3 +6,4 @@
 
 ## Sources
 1. Buffer52 - https://github.com/buffer51/android-gfortran
+2. LLVM Toolchain Guide - https://android.googlesource.com/toolchain/llvm_android/+/main/BUILD.md 
